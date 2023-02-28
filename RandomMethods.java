@@ -43,8 +43,57 @@ public class RandomMethods {
  
     }
 	
+	public void insert(int index, int integer) {
+		if (index < 0 || index > size) {
+			String message = "The index is outside the range [0, " + size 
+					+ "].";
+			throw new IndexOutOfBoundsException(message);
+		}
+		
+		// If the array is full, double its capacity.
+		if (size == array.length) {
+			array = Arrays.copyOf(array, 2*array.length);
+		}
+		
+		// Shift the integers at and above the given index to make room.
+		for (int idx = size - 1; idx >= index; --idx) {
+			array[idx + 1] = array[idx];
+		}
+		
+		array[index] = integer;
+		++size;
+	}
 	
- 
+ public int remove(int index) {
+		if (index < 0 || index >= size) {
+			String message = "The index is outside the range [0, "
+					+ (size - 1) + "].";
+			throw new IndexOutOfBoundsException(message);
+		}
+		
+		// Save the integer to be returned in a temporary variable.
+		int removedInt = array[index];
+		
+		// Shift the integers above the given index to fill the gap.
+		for (int idx = index + 1; idx < size; ++idx) {
+			array[idx - 1] = array[idx];
+		}
+		
+		// Reduce the size. (Note: This variable determines the range of valid 
+		// indices, so there is no need to overwrite any array elements.)
+		--size;
+		
+		// If the array is 1/4 or less full and the length is greater than the 
+		// minimum capacity, halve the capacity.
+		if (4*size <= array.length && array.length > MIN_CAPACITY) {
+			
+			// Don't allow the capacity to drop below the minimum.
+			int newCapacity = Math.max(array.length / 2, MIN_CAPACITY);
+			array = Arrays.copyOf(array, newCapacity);
+		}
+		
+		return removedInt;
+	}
 
 
 }
