@@ -94,6 +94,20 @@ public class RandomMethods {
 		
 		return removedInt;
 	}
+	@Override
+	public String toString() {
+		StringJoiner joiner = new StringJoiner(", ", "[", "]");
+		// TODO: Complete this method.
+		String temp = null;
+		if(array != null && size > 0) {
+			for(int i = 0; i < size; ++i) {
+				temp = joiner.add(String.valueOf(array[i])).toString();
+			}
+			return temp;
+		}
+		return "[]";
+		
+	}
 
 
 }
